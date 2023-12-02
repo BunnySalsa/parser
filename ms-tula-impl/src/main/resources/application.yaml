@@ -27,56 +27,9 @@ spring:
       hibernate.hbm2ddl.auto: validate
   jackson:
     default-property-inclusion: non_null
-  kafka:
-    bootstrap-servers: ${KAFKA_HOSTS:localhost:9092}
-    consumer:
-      enable-auto-commit: false
-      group-id: ms-sample
-      properties:
-        spring.json.key.default.type: java.lang.String
-        spring.json.trusted.packages: "*"
-        request.timeout.ms: "60000"
-        session.timeout.ms: "180000"
-    producer:
-      acks: all
-      key-serializer: org.apache.kafka.common.serialization.StringSerializer
-      value-serializer: io.confluent.kafka.serializers.KafkaAvroSerializer
-      properties:
-        auto.register.schemas: false
-        use.latest.version: true
-        value.subject.name.strategy: io.confluent.kafka.serializers.subject.RecordNameStrategy
-    listener:
-      concurrency: 1
-    properties:
-      schema.registry.url: ${KAFKA_SCHEMA_REGISTRY_URL:http://localhost:8180}
-      security:
-        protocol: ${KAFKA_SECURITY_PROTOCOL:PLAINTEXT}
-      sasl:
-        mechanism: SCRAM-SHA-256
-        jaas:
-          config: org.apache.kafka.common.security.scram.ScramLoginModule required username="${KAFKA_USER}" password="${KAFKA_PASSWORD}";
-  cloud:
-    loadbalancer:
-      ribbon:
-        enable: false
-  security:
-    oauth2:
-      resource-server:
-        jwt:
-          issuer-uri: ${BLITZ_ISSUER_URI:https://dev-auth.nlmk.com}
-          jwk-set-uri: ${BLITZ_JWK_SET_URI:https://dev-auth.nlmk.com/blitz/oauth/.well-known/jwks}
 
-logging:
-  level:
-    ROOT: INFO
-    com.rntgroup.brain: DEBUG
 
 management.endpoints.web.exposure.include: '*'
 
-app:
-  kafka:
-    producer:
-      topic: ${ENV:local}.sample.events
-
 security:
-  enabled: true
+  enabled: false

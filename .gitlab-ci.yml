@@ -1,4 +1,0 @@
-include:
-  - project: 'nlmk-hr/gitlab-ci'
-    ref: master
-    file: '$CI_PROJECT_NAME/gitlab-ci.yaml'

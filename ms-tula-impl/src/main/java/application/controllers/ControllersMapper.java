@@ -1,12 +1,13 @@
 package application.controllers;
 
-import team.microchad.api.dto.ProductBlankDto;
-import team.microchad.api.dto.ProductDto;
-import team.microchad.api.dto.ProductDtoResponse;
+
 import domain.model.Product;
 import domain.model.ProductBlank;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
+import team.microchad.api.dto.ProductBlankDto;
+import team.microchad.api.dto.ProductDto;
+import team.microchad.api.dto.ProductDtoResponse;
 
 @Mapper(componentModel = "spring")
 public interface ControllersMapper {

@@ -3,10 +3,6 @@ package application.controllers;
 import static org.springframework.http.HttpStatus.OK;
 import static org.springframework.http.ResponseEntity.status;
 
-import team.microchad.api.ProductApi;
-import team.microchad.api.dto.ProductBlankDto;
-import team.microchad.api.dto.ProductDto;
-import team.microchad.api.dto.ProductDtoResponse;
 import domain.model.Product.ProductId;
 import domain.operations.CreateProductOperation;
 import domain.operations.GetProductOperation;
@@ -15,6 +11,10 @@ import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
+import team.microchad.api.ProductApi;
+import team.microchad.api.dto.ProductBlankDto;
+import team.microchad.api.dto.ProductDto;
+import team.microchad.api.dto.ProductDtoResponse;
 
 @RestController
 @RequiredArgsConstructor

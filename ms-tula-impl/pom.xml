@@ -153,14 +153,6 @@
       <version>${opentelemetry-javaagent.version}</version>
       <scope>runtime</scope>
     </dependency>
-<!--    <dependency>-->
-<!--      <groupId>com.rntgroup.brain</groupId>-->
-<!--      <artifactId>lb-common-archunit-tests-suite</artifactId>-->
-<!--      <classifier>tests</classifier>-->
-<!--      <version>${lb-common-archunit-tests-suite.version}</version>-->
-<!--      <type>test-jar</type>-->
-<!--      <scope>test</scope>-->
-<!--    </dependency>-->
     <dependency>
       <groupId>am.ik.yavi</groupId>
       <artifactId>yavi</artifactId>
@@ -219,18 +211,6 @@
             </configuration>
           </execution>
         </executions>
-      </plugin>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-surefire-plugin</artifactId>
-        <configuration>
-          <dependenciesToScan>
-            <dependency>com.rntgroup.brain:lb-common-archunit-tests-suite</dependency>
-          </dependenciesToScan>
-          <excludes>
-            <exclude>**/*IT.java</exclude>
-          </excludes>
-        </configuration>
       </plugin>
       <plugin>
         <groupId>org.jacoco</groupId>
