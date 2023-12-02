@@ -1,0 +1,182 @@
+openapi: 3.0.3
+info:
+  title: OpenAPI definition
+  version: '1.0'
+  description: API for Product Core
+servers:
+  - url: 'http://localhost:8080'
+tags:
+  - name: product
+paths:
+  /api/v1/products/{productId}:
+    parameters:
+      - $ref: '#/components/parameters/ProductId'
+    get:
+      operationId: getProductById
+      description: Получение информации о продукте
+      responses:
+        200:
+          description: Информация найдена
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProductDtoResponse'
+        401:
+          $ref: '#/components/responses/401'
+        403:
+          $ref: '#/components/responses/403'
+        404:
+          $ref: '#/components/responses/404'
+        500:
+          $ref: '#/components/responses/500'
+      tags:
+        - product
+    put:
+      operationId: updateProductById
+      description: Обновление информации о продукте
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProductDto'
+      responses:
+        200:
+          description: Успешное обновление
+        401:
+          $ref: '#/components/responses/401'
+        403:
+          $ref: '#/components/responses/403'
+        404:
+          $ref: '#/components/responses/404'
+        500:
+          $ref: '#/components/responses/500'
+      tags:
+        - product
+  /api/v1/products:
+    post:
+      operationId: createProduct
+      description: Создание продукта
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProductBlankDto'
+      responses:
+        200:
+          description: Информация найдена
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProductDtoResponse'
+        400:
+          $ref: '#/components/responses/400'
+        401:
+          $ref: '#/components/responses/401'
+        403:
+          $ref: '#/components/responses/403'
+        404:
+          $ref: '#/components/responses/404'
+        500:
+          $ref: '#/components/responses/500'
+      tags:
+        - product
+components:
+  parameters:
+    ProductId:
+      schema:
+        type: string
+        format: uuid
+      name: productId
+      in: path
+      required: true
+  schemas:
+    ProductBlankDto:
+      title: ProductDto
+      type: object
+      description: '\"Заготовка\" продукта'
+      properties:
+        title:
+          type: string
+    ProductDto:
+      title: ProductDto
+      type: object
+      description: 'Продукт'
+      properties:
+        id:
+          type: string
+          format: uuid
+        title:
+          type: string
+        created:
+          type: string
+          format: date-time
+    ProductDtoResponse:
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/ProductDto'
+      allOf:
+        - $ref: '#/components/schemas/Response'
+    Response:
+      type: object
+      description: Request processing result
+      properties:
+        data:
+          type: object
+          description: Response data
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/Error'
+    Error:
+      type: object
+      description: Error information
+      required:
+        - description
+      properties:
+        description:
+          type: string
+          description: Error message
+        details:
+          type: string
+          description: Error details
+  responses:
+    200:
+      description: OK
+    400:
+      description: Bad request
+      content:
+        application/json:
+          schema:
+            allOf:
+              - $ref: '#/components/schemas/Response'
+    401:
+      description: Unauthorized
+      content:
+        application/json:
+          schema:
+            allOf:
+              - $ref: '#/components/schemas/Response'
+    403:
+      description: Permission denied
+      content:
+        application/json:
+          schema:
+            allOf:
+              - $ref: '#/components/schemas/Response'
+    404:
+      description: Not found
+    422:
+      description: Unprocessable entity
+      content:
+        application/json:
+          schema:
+            allOf:
+              - $ref: '#/components/schemas/Response'
+    500:
+      description: Internal server error
+      content:
+        application/json:
+          schema:
+            allOf:
+              - $ref: '#/components/schemas/Response'
