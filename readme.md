@@ -22,6 +22,3 @@ By default, openapi code generation with spring profile is configured(DTOs and R
 
 Must contain all business logic of service
 Must not contain any DDL logic or expose API contracts
-
-# authorization algorithm
-https://confluence.nlmk.com/pages/viewpage.action?pageId=200405491
