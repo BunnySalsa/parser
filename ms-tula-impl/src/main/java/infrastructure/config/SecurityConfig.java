@@ -1,5 +1,6 @@
 package infrastructure.config;
 
+import com.google.common.collect.ImmutableList;
 import java.security.cert.X509Certificate;
 import javax.net.ssl.SSLContext;
 import lombok.RequiredArgsConstructor;
@@ -16,11 +17,33 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 @EnableWebSecurity
 @RequiredArgsConstructor
 @Configuration(proxyBeanMethods = false)
 public class SecurityConfig {
+
+
+  @Bean
+  public CorsConfigurationSource corsConfigurationSource() {
+    final CorsConfiguration configuration = new CorsConfiguration();
+    configuration.setAllowedOriginPatterns(ImmutableList.of("*"));
+    configuration.setAllowedMethods(ImmutableList.of("HEAD",
+        "GET", "POST", "PUT", "DELETE", "PATCH"));
+    // setAllowCredentials(true) is important, otherwise:
+    // The value of the 'Access-Control-Allow-Origin' header in the response must not be the wildcard '*' when the request's credentials mode is 'include'.
+    configuration.setAllowCredentials(true);
+    // setAllowedHeaders is important! Without it, OPTIONS preflight request
+    // will fail with 403 Invalid CORS request
+    configuration.setAllowedHeaders(
+        ImmutableList.of("Authorization", "Cache-Control", "Content-Type"));
+    final UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+    source.registerCorsConfiguration("/**", configuration);
+    return source;
+  }
 
   @ConditionalOnProperty(name = "security.enabled", havingValue = "true")
   @Bean
@@ -28,6 +51,8 @@ public class SecurityConfig {
     http
         .csrf()
         .disable()
+        .cors()
+        .and()
         .authorizeRequests()
         .antMatchers(
         "/v3/api-docs/**",

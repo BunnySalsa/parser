@@ -5,6 +5,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import org.springframework.core.io.Resource;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import team.microchad.api.dto.LawsuitDto;
 
@@ -21,6 +23,8 @@ public class DocumentController implements team.microchad.api.DocumentsApi {
     }
 
     @Override
+    @RequestMapping(value = "/api/v1/claim",
+        method = RequestMethod.POST, consumes = { "multipart/form-data" })
     public ResponseEntity<Void> postClaim(Resource body) {
         return null;
     }
