@@ -2,7 +2,7 @@ openapi: 3.0.3
 info:
   title: OpenAPI definition
   version: '1.0'
-  description: API for Product Core
+  description: API
 servers:
   - url: 'http://localhost:8080'
 tags:
@@ -11,65 +11,19 @@ paths:
   /api/v1/products/{productId}:
     parameters:
       - $ref: '#/components/parameters/ProductId'
-    get:
-      operationId: getProductById
-      description: Получение информации о продукте
-      responses:
-        200:
-          description: Информация найдена
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ProductDtoResponse'
-        401:
-          $ref: '#/components/responses/401'
-        403:
-          $ref: '#/components/responses/403'
-        404:
-          $ref: '#/components/responses/404'
-        500:
-          $ref: '#/components/responses/500'
-      tags:
-        - product
-    put:
-      operationId: updateProductById
-      description: Обновление информации о продукте
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/ProductDto'
-      responses:
-        200:
-          description: Успешное обновление
-        401:
-          $ref: '#/components/responses/401'
-        403:
-          $ref: '#/components/responses/403'
-        404:
-          $ref: '#/components/responses/404'
-        500:
-          $ref: '#/components/responses/500'
-      tags:
-        - product
-  /api/v1/products:
+  /api/v1/contract:
     post:
-      operationId: createProduct
-      description: Создание продукта
+      operationId: postContract
+      description: Загрузка контракта
       requestBody:
         content:
-          application/json:
+          application/octet-stream:
             schema:
-              $ref: '#/components/schemas/ProductBlankDto'
+              type: string
+              format: binary
       responses:
         200:
           description: Информация найдена
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ProductDtoResponse'
-        400:
-          $ref: '#/components/responses/400'
         401:
           $ref: '#/components/responses/401'
         403:
@@ -79,7 +33,54 @@ paths:
         500:
           $ref: '#/components/responses/500'
       tags:
-        - product
+        - documents
+  /api/v1/claim:
+    post:
+      operationId: postClaim
+      description: Загрузка претензии
+      requestBody:
+        content:
+          application/octet-stream:
+            schema:
+              type: string
+              format: binary
+      responses:
+        200:
+          description: Информация найдена
+        401:
+          $ref: '#/components/responses/401'
+        403:
+          $ref: '#/components/responses/403'
+        404:
+          $ref: '#/components/responses/404'
+        500:
+          $ref: '#/components/responses/500'
+      tags:
+        - documents
+
+  /api/v1/lawsuit:
+    post:
+      operationId: generateDocument
+      description: Сгенерировать документ
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LawsuitDto'
+      responses:
+        200:
+          description: Информация найдена
+        401:
+          $ref: '#/components/responses/401'
+        403:
+          $ref: '#/components/responses/403'
+        404:
+          $ref: '#/components/responses/404'
+        500:
+          $ref: '#/components/responses/500'
+      tags:
+        - documents
+
 components:
   parameters:
     ProductId:
@@ -90,33 +91,166 @@ components:
       in: path
       required: true
   schemas:
-    ProductBlankDto:
-      title: ProductDto
+    PlaintiffDto:
+      title: PlaintiffDto
       type: object
-      description: '\"Заготовка\" продукта'
+      description: Истец
       properties:
+        INN:
+          type: string
+        OGRN:
+          type: string
+        address:
+          type: string
+        KPP:
+          type: string
+        paymentAccount:
+          type: string
+        correspondentAccount:
+          type: string
+        bank:
+          type:
+            string
+        BIC:
+          type:
+            string
+        OKTMO:
+          type:
+            string
+        representative:
+          type:
+            string
+
+    DefendantDto:
+      title: DefendantDto
+      type: object
+      description: Ответчик
+      properties:
+        FIO:
+          type: string
+        birthdate:
+          type: string
+          format: date
+        passport:
+          type: string
+        INN:
+          type: string
+        OGRN:
+          type: string
+        address:
+          type: string
         title:
           type: string
-    ProductDto:
-      title: ProductDto
+
+    AreaDto:
+      title: AreaDto
       type: object
-      description: 'Продукт'
+      description: Участок
       properties:
-        id:
+        number:
           type: string
-          format: uuid
-        title:
+        area:
+          type: number
+          format: float
+        address:
           type: string
-        created:
+
+    ContractDto:
+      title: ContractDto
+      type: object
+      description: Договор
+      properties:
+        date:
           type: string
-          format: date-time
-    ProductDtoResponse:
+          format: date
+        period:
+          type: string
+        paymentPoint:
+          type: string
+        number:
+          type: string
+        sum:
+          type: number
+          format: float
+        penaltyPoint:
+          type: string
+
+    PretensionDto:
+      title: PretensionDto
+      type: object
+      description: Претензия
+      properties:
+        overduePeriod:
+          type: string
+        debt:
+          type: string
+        peny:
+          type: number
+          format: float
+        penalty:
+          type: number
+          format: float
+        date:
+          type: string
+          format: date
+        refuseDate:
+          type: string
+          format: date
+        refuseCause:
+          type: string
+        unlawRefuseCase:
+          type: string
+        due:
+          type: number
+          format: float
+
+    GovermentAgencyDto:
+      title: GovermentAgencyDto
+      type: object
+      description: Гос орган
+      properties:
+        registeringGovermentAgency:
+          type: string
+        recordNumber:
+          type: string
+        registryDate:
+          type: string
+          format: date
+
+    RulesDto:
+      title: RulesDto
       type: object
       properties:
-        data:
-          $ref: '#/components/schemas/ProductDto'
-      allOf:
-        - $ref: '#/components/schemas/Response'
+        isRentPeriod:
+          type: boolean
+        isPeny:
+          type: boolean
+        shouldBeRegistred:
+          type: boolean
+        isLegal:
+          type: boolean
+        hasPretentionAnswer:
+          type: boolean
+
+    LawsuitDto:
+      title: LawsuitDto
+      type: object
+      properties:
+        plantiff:
+          $ref: '#/components/schemas/PlaintiffDto'
+        defendant:
+          $ref: '#/components/schemas/DefendantDto'
+        area:
+          $ref: '#/components/schemas/AreaDto'
+        contract:
+          $ref: '#/components/schemas/ContractDto'
+        pretension:
+          $ref: '#/components/schemas/PretensionDto'
+        agency:
+          $ref: '#/components/schemas/GovermentAgencyDto'
+        rules:
+          $ref: '#/components/schemas/RulesDto'
+
     Response:
       type: object
       description: Request processing result
