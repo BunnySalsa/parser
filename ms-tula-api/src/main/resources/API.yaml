@@ -2,7 +2,7 @@ openapi: 3.0.3
 info:
   title: OpenAPI definition
   version: '1.0'
-  description: API
+  description: API for Product Core
 servers:
   - url: 'http://localhost:8080'
 tags:
@@ -69,7 +69,12 @@ paths:
               $ref: '#/components/schemas/LawsuitDto'
       responses:
         200:
-          description: Информация найдена
+          description: Успешно
+          content:
+            application/octet-stream:
+              schema:
+                type: string
+                format: binary
         401:
           $ref: '#/components/responses/401'
         403:
