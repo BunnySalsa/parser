@@ -8,60 +8,60 @@ servers:
 tags:
   - name: product
 paths:
-  /api/v1/contract:
-    post:
-      operationId: postContract
-      description: Загрузка контракта
-      requestBody:
-        content:
-          application/octet-stream:
-            schema:
-              type: string
-              format: binary
-      responses:
-        200:
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/LawsuitDto'
-          description: Ok
-        401:
-          $ref: '#/components/responses/401'
-        403:
-          $ref: '#/components/responses/403'
-        404:
-          $ref: '#/components/responses/404'
-        500:
-          $ref: '#/components/responses/500'
-      tags:
-        - documents
-  /api/v1/claim:
-    post:
-      operationId: postClaim
-      description: Загрузка претензии
-      requestBody:
-        content:
-          application/octet-stream:
-            schema:
-              type: string
-              format: binary
-      responses:
-        200:
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/LawsuitDto'
-          description: Ok
-        401:
-          $ref: '#/components/responses/401'
-        403:
-          $ref: '#/components/responses/403'
-        404:
-          $ref: '#/components/responses/404'
-        500:
-          $ref: '#/components/responses/500'
-      tags:
-        - documents
+#  /api/v1/contract:
+#    post:
+#      operationId: postContract
+#      description: Загрузка контракта
+#      requestBody:
+#        content:
+#          multipart/form-data:
+#            schema:
+#              type: string
+#              format: binary
+#      responses:
+#        200:
+#          content:
+#            application/json:
+#              schema:
+#                $ref: '#/components/schemas/LawsuitDto'
+#          description: Ok
+#        401:
+#          $ref: '#/components/responses/401'
+#        403:
+#          $ref: '#/components/responses/403'
+#        404:
+#          $ref: '#/components/responses/404'
+#        500:
+#          $ref: '#/components/responses/500'
+#      tags:
+#        - documents
+#  /api/v1/claim:
+#    post:
+#      operationId: postClaim
+#      description: Загрузка претензии
+#      requestBody:
+#        content:
+#          multipart/form-data:
+#            schema:
+#              type: string
+#              format: binary
+#      responses:
+#        200:
+#          content:
+#            application/json:
+#              schema:
+#                $ref: '#/components/schemas/LawsuitDto'
+#          description: Ok
+#        401:
+#          $ref: '#/components/responses/401'
+#        403:
+#          $ref: '#/components/responses/403'
+#        404:
+#          $ref: '#/components/responses/404'
+#        500:
+#          $ref: '#/components/responses/500'
+#      tags:
+#        - documents
 
   /api/v1/lawsuit:
     post:
