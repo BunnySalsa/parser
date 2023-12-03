@@ -1,30 +1,14 @@
 server:
   port: ${SERVER_PORT:8080}
   max-http-header-size: 10000000
+
 spring:
+  servlet:
+    multipart:
+      max-file-size: 20MB
+      max-request-size: 50MB
   application:
     name: ms-sample
-  datasource:
-    url: jdbc:postgresql://${DB_HOST:localhost}:${DB_PORT:5432}/${DB_NAME:sample}
-    username: ${DB_USER:admin}
-    password: ${DB_PASSWORD:password}
-    driverClassName: org.postgresql.Driver
-    auto-commit: false
-    hikari:
-      auto-commit: false
-      maximum-pool-size: 5
-  jpa:
-    generate-ddl: false
-    database: postgresql
-    hibernate:
-      batch_fetch_style: dynamic
-      jdbc:
-        fetch_size: 50
-        batch_size: 10
-      naming:
-        physical-strategy: org.hibernate.boot.model.naming.CamelCaseToUnderscoresNamingStrategy
-    properties:
-      hibernate.hbm2ddl.auto: validate
   jackson:
     default-property-inclusion: non_null
 
@@ -33,3 +17,7 @@ management.endpoints.web.exposure.include: '*'
 
 security:
   enabled: false
+
+spring.banner:
+  charset: UTF-8
+  location: classpath:banner.txt

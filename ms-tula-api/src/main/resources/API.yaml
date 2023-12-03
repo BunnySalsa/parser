@@ -8,9 +8,6 @@ servers:
 tags:
   - name: product
 paths:
-  /api/v1/products/{productId}:
-    parameters:
-      - $ref: '#/components/parameters/ProductId'
   /api/v1/contract:
     post:
       operationId: postContract
@@ -23,7 +20,11 @@ paths:
               format: binary
       responses:
         200:
-          description: Информация найдена
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LawsuitDto'
+          description: Ok
         401:
           $ref: '#/components/responses/401'
         403:
@@ -46,7 +47,11 @@ paths:
               format: binary
       responses:
         200:
-          description: Информация найдена
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LawsuitDto'
+          description: Ok
         401:
           $ref: '#/components/responses/401'
         403:
