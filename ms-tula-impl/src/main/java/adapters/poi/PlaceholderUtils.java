@@ -55,7 +55,7 @@ public class PlaceholderUtils {
           dto.getPretension().getPeny(), dto.getPretension().getPeny()
               +  dto.getPretension().getDue());
     }
-    return HAS_NO_PENY.formatted(dto.getPretension().getPenalty().toString());
+    return HAS_NO_PENY.formatted(String.valueOf(dto.getPretension().getPenalty()));
   }
 
   public static String getHasReply(LawsuitDto dto) {

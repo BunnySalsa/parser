@@ -17,7 +17,7 @@ import okhttp3.RequestBody;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
-import team.microchad.api.dto.LawsuitDto;
+import team.microchad.api.dto.*;
 
 @Service
 @Slf4j
@@ -27,6 +27,20 @@ public class GptAdapter implements GptPort {
   private final RestTemplate gptRestTemplate;
   private final OkHttpClient okHttpClient;
   private final ObjectMapper objectMapper;
+  private static final PlaintiffDto DEFAULT_PLAINTIFF = new PlaintiffDto()
+          .BIC("017003983")
+          .INN("7106058814")
+          .KPP("710601001")
+          .bank("ОТДЕЛЕНИЕ ТУЛА БАНКА РОССИИ/УФК по Тульской области г. Тула")
+          .paymentAccount("05100643000000016600")
+          .correspondentAccount("40102810445370000059");
+  private static final LawsuitDto DEFAULT = new LawsuitDto().plantiff(DEFAULT_PLAINTIFF)
+          .area(new AreaDto())
+          .agency(new GovermentAgencyDto())
+          .rules(new RulesDto())
+          .defendant(new DefendantDto())
+          .pretension(new PretensionDto())
+          .contract(new ContractDto());
 
   @Value("${openai.api-key}")
   private String apiKey;
@@ -67,6 +81,6 @@ public class GptAdapter implements GptPort {
     } catch (Exception e) {
       log.error(e.getMessage());
     }
-    return null;
+    return DEFAULT;
   }
 }

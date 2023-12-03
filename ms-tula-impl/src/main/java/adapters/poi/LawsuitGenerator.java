@@ -98,13 +98,9 @@ public class LawsuitGenerator implements LawsuitPort {
 
     XWPFTable headerTable = headerTemplateDoc.getTableArray(0);
     headerTable.getRows().forEach(
-        xwpfTableRow -> {
-          xwpfTableRow.getTableCells().forEach(
-              xwpfTableCell -> {
-                replaceFieldsInHeader(xwpfTableCell, dto);
-              }
-          );
-        }
+        xwpfTableRow -> xwpfTableRow.getTableCells().forEach(
+            xwpfTableCell -> replaceFieldsInHeader(xwpfTableCell, dto)
+        )
     );
 
     XWPFParagraph headerParagraph = mainTemplateDoc.getParagraphs().get(0);
@@ -144,18 +140,18 @@ public class LawsuitGenerator implements LawsuitPort {
 
   private static void bodyReplacements(LawsuitDto dto, XWPFRun xwpfRun, String text) {
     replace(xwpfRun, text, "areaNumber", dto.getArea().getNumber());
-    replace(xwpfRun, text, "areaArea", dto.getArea().getArea().toString());
+    replace(xwpfRun, text, "areaArea", String.valueOf(dto.getArea().getArea()));
     replace(xwpfRun, text, "areaAddress", dto.getArea().getAddress());
 
     replace(xwpfRun, text, "contractPaymentPoint", dto.getContract().getPaymentPoint());
     replace(xwpfRun, text, "contractNumber", dto.getContract().getNumber());
-    replace(xwpfRun, text, "contractSum", dto.getContract().getSum().toString());
+    replace(xwpfRun, text, "contractSum", String.valueOf(dto.getContract().getSum()));
     replace(xwpfRun, text, "contractDate", formatDate(dto.getContract().getDate()));
     replace(xwpfRun, text, "contractPeriod", dto.getContract().getPeriod());
 
     replace(xwpfRun, text, "pretensionOverduePeriod", dto.getPretension().getOverduePeriod());
     replace(xwpfRun, text, "pretensionDebt", dto.getPretension().getDebt());
-    replace(xwpfRun, text, "pretensionDue", dto.getPretension().getDue().toString());
+    replace(xwpfRun, text, "pretensionDue", String.valueOf(dto.getPretension().getDue()));
     replace(xwpfRun, text, "pretensionDate", formatDate(dto.getPretension().getDate()));
 
 
@@ -195,7 +191,7 @@ public class LawsuitGenerator implements LawsuitPort {
   }
 
   private static void replace(XWPFRun xwpfRun, String text, String param, String replacement) {
-    if (Objects.nonNull(text) &&  text.contains(param)) {
+    if (Objects.nonNull(text) && Objects.nonNull(replacement) &&  text.contains(param)) {
       text = text.replace(param, replacement);
       xwpfRun.setText(text, 0);
     }
