@@ -34,8 +34,6 @@ public class DocumentController {
       method = RequestMethod.POST,
       value = "/api/v1/lawsuit", produces = "application/octet-stream")
   public ResponseEntity<Resource> generateDocument(@RequestBody LawsuitDto lawsuitDto) {
-    HttpHeaders headers = new HttpHeaders();
-    headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
     return ResponseEntity.ok(
         new FileSystemResource(
             generateLawsuitOperation.execute(lawsuitDto)
@@ -47,30 +45,16 @@ public class DocumentController {
   @RequestMapping(value = "/api/v1/claim",
       method = RequestMethod.POST)
   public ResponseEntity<LawsuitDto> postClaim(MultipartFile file) {
-    Thread.sleep(1000);
-    return ResponseEntity.ok(new LawsuitDto().plantiff(
-        new PlaintiffDto()
-            .INN("31231"))
-        .agency(
-            new GovermentAgencyDto()
-                .recordNumber("123141241")
-                .registryDate(LocalDate.of(2001, 4, 25))
-        ));
+    return ResponseEntity.ok(
+        parseContract.execute(file.getInputStream())
+    );
   }
 
 
+  @SneakyThrows
   @RequestMapping(value = "/api/v1/contract",
       method = RequestMethod.POST)
   public ResponseEntity<LawsuitDto> postContract(MultipartFile file) {
-//        parseContract.execute(file.getInputStream());
-    return ResponseEntity.ok(
-        new LawsuitDto().plantiff(
-                new PlaintiffDto()
-                    .INN("1231"))
-            .defendant(
-                new DefendantDto()
-                    .birthdate(
-                        LocalDate.now()))
-    );
+    return ResponseEntity.ok().build();
   }
 }

@@ -21,3 +21,12 @@ security:
 spring.banner:
   charset: UTF-8
   location: classpath:banner.txt
+
+openai:
+  api-key: ${OPENAI_API_KEY}
+
+logging:
+  level:
+    org:
+      apache:
+        http: DEBUG

@@ -1,6 +1,8 @@
 package domain.operations;
 
+import domain.ports.GptPort;
 import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import net.sourceforge.tess4j.ITesseract;
 import net.sourceforge.tess4j.Tesseract;
@@ -23,8 +25,11 @@ import java.util.regex.Pattern;
 
 @Slf4j
 @Service
-@NoArgsConstructor
+@RequiredArgsConstructor
 public class ParseContractOperation {
+
+    private final GptPort gptPort;
+
     /**
      * Plaintiff patterns
      */
@@ -36,8 +41,7 @@ public class ParseContractOperation {
     public LawsuitDto execute(InputStream pdfContract) throws IOException {
         String pdfText = parsePdfToString(pdfContract);
         log.info(pdfText);
-        LawsuitDto result = parseStringToLawsuit(pdfText);
-        return null;
+        return gptPort.extractSomeData(pdfText);
     }
 
     private LawsuitDto parseStringToLawsuit(String pdfText) {
@@ -84,8 +88,6 @@ public class ParseContractOperation {
 
     private PlaintiffDto extractPlaintiff(String text) {
         PlaintiffDto result = new PlaintiffDto();
-        Matcher innMatcher = INN_PATTERN.matcher(text);
-        if (innMatcher.find()) result.setINN(innMatcher.group(1));
         return result;
     }
 

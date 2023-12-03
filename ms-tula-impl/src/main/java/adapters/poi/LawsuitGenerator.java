@@ -187,6 +187,9 @@ public class LawsuitGenerator implements LawsuitPort {
   }
 
   public static String formatDate(LocalDate date) {
+    if (Objects.isNull(date)) {
+      return "";
+    }
     return "%s г.".formatted(date.format(DateTimeFormatter.ofPattern("dd.MM.yyyy",
         Locale.getDefault())));
   }
