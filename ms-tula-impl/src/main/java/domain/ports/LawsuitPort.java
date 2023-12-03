@@ -1,7 +1,8 @@
 package domain.ports;
 
+import java.io.File;
 import team.microchad.api.dto.LawsuitDto;
 
 public interface LawsuitPort {
-  void generateLawsuit(LawsuitDto dto);
+  File generateLawsuit(LawsuitDto dto);
 }
